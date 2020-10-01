@@ -1,52 +1,11 @@
-/*
-      HET PAGHADAR
-      DA-IICT
-      @HET262
-*/
- 
 #include<bits/stdc++.h>
 using namespace std;
-typedef long double ld;
-typedef long long ll;
-typedef vector<ll> vec;
-#define inf LLONG_MAX
-#define bp __builtin_popcountll
-#define pb push_back
-#define ff first
-#define ss second
-// #define P pair<ll,ll>
-#define N 300001
-#define ALL(a) a.begin(),a.end()
-#define LG 20
-#define int ll
-#define MOD 1000000007
-#define FAST ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
-
-
-void query()
-{
+int main(){
     int n;
     cin>>n;
     if(n%2==0 && n!=2)
     cout<<"YES";
     else
     cout<<"NO";
-
-
-
-
-}
-
-int32_t main()
-{
-   FAST;
-
-   ll t=1;
-   // cin>>t;
-
-   while(t--)
-   {
-      query();
-   }
 }
