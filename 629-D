@@ -1,0 +1,152 @@
+/*
+      HET PAGHADAR
+      DA-IICT
+      @HET262
+*/
+ 
+#include<bits/stdc++.h>
+using namespace std;
+typedef long double ld;
+typedef long long ll;
+typedef vector<ll> vec;
+#define inf LLONG_MAX
+#define bp __builtin_popcountll
+#define pb push_back
+#define ff first
+#define ss second
+#define P pair<ll,ll>
+#define N 300001
+#define ALL(a) a.begin(),a.end()
+#define LG 20
+#define int ll
+#define MOD 1000000007
+#define FAST ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+ 
+vector<P> a;
+ 
+struct SegTree
+{
+      int E;
+      vector<ll> st;
+ 
+      void init(int n)
+      {
+            E = n;
+            st.resize(4 * E + 5 , 0);
+      }
+ 
+      void merge(ll& cur, ll& l, ll& r) 
+      {
+            cur = max(l,r);
+      }
+ 
+      void build(int node, int L, int R)
+      {
+            if(L==R)
+            {
+                  st[node] = a[L].ff;
+                  return;
+            }
+            int M=(L + R)/2;
+            build(node*2, L, M);
+            build(node*2 + 1, M + 1, R);
+            merge(st[node], st[node*2], st[node*2+1]);
+      }
+ 
+      ll Query(int node, int L, int R, int i, int j)
+      {
+            if(j<L || i>R)
+                  return 0;
+            if(i<=L && R<=j)
+                  return st[node];
+            int M = (L + R)/2;
+            ll left=Query(node*2, L, M, i, j);
+            ll right=Query(node*2 + 1, M + 1, R, i, j);
+            ll cur;
+            merge(cur, left, right);
+            return cur;
+      }
+ 
+      void pUpdate(int node, int L, int R, int pos, ll val)
+      {
+            if(L == R)
+            {
+                  st[node]=val;
+                  return;
+            }
+            int M = (L + R)/2;
+            if(pos <= M)
+                  pUpdate(node*2, L, M, pos, val);
+            else
+                  pUpdate(node*2 + 1, M + 1, R, pos, val);
+            merge(st[node], st[node*2], st[node*2 + 1]);
+      }
+ 
+      ll query(int l, int r)
+      {
+            if(l>r)
+                  return 0.0;
+            return Query(1, 1, E, l, r);
+      }
+ 
+      void update(int pos, ll val)
+      {
+            pUpdate(1, 1, E, pos, val);
+      }
+};
+ 
+bool foo(P &a,P &b)
+{
+      if(a.ff!=b.ff)
+            return a.ff<b.ff;
+      return a.ss>b.ss;
+}
+ 
+ 
+void query()
+{
+      ll n;
+      cin>>n;
+ 
+      SegTree s;
+      s.init(n);
+ 
+      a.pb({-1,0});
+      for(int i=1;i<=n;i++)
+      {
+            ll r,h;
+            cin>>r>>h;
+            a.pb({r*r*h,i});
+      }
+ 
+      sort(ALL(a),foo);
+ 
+      ll ans=0;
+      for(int i=1;i<=n;i++)
+      {
+            ll cake=a[i].ff+s.query(1,a[i].ss-1);
+            s.update(a[i].ss,cake);
+            ans=max(ans,cake);
+      }
+ 
+      double f_ans=ans*acos(-1);
+ 
+      printf("%0.12lf",f_ans);
+ 
+ 
+ 
+}
+ 
+int32_t main()
+{
+      FAST;
+      
+      ll t=1;
+      // cin>>t;
+      while(t--)
+      {
+            query();
+      }
+      
+ 
+}
